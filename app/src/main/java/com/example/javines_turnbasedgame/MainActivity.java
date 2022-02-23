@@ -10,14 +10,15 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView txtHeroName,txtMonsName,txtHeroHp,txtMonsHp,txtHeroMP,txtMonsMP;
+    //Global variable
+    TextView txtHeroName,txtMonsName,txtHeroHp,txtMonsHp,txtHeroMP,txtMonsMP,txtHeroDPS,txtMonsDPS,txtLog;
     Button btnNextTurn;
 
     //HeroStats
 
     String heroName = "Ches Cuares";
     int heroHP = 1500;
-    int heroHp = 1000;
+    int heroMp = 1000;
     int heroMinDamage = 100;
     int heroMaxDamage = 150;
 
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int monsterMP = 400;
     int monsterMinDamage = 40;
     int monsterMaxDamage = 55;
+
+    int turnNumber= 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtHeroMP = findViewById(R.id.txtHeroMP);
         txtMonsMP = findViewById(R.id.txtMonsMP);
         btnNextTurn = findViewById(R.id.btnNextTurn);
+        txtHeroDPS = findViewById(R.id.txtHeroDPS);
+        txtMonsDPS = findViewById(R.id.txtMonsDPS);
 
         txtHeroHp.setText(heroName);
-        txtHeroHp.setText(String.valueOf(heroHp));
+        txtHeroHp.setText(String.valueOf(heroMp));
         txtHeroMP.setText(String.valueOf(heroHP));
 
         txtMonsHp.setText(monsName);
         txtMonsHp.setText(String.valueOf(monsterHP));
         txtMonsMP.setText(String.valueOf(monsterMP));
 
+        txtLog.findViewById(R.id.txtCombatLog);
+
+        //Damage Display
+        txtHeroDPS.setText(heroMinDamage + " ~ "+ heroMaxDamage);
+        txtMonsDPS.setText(monsterMinDamage + " ~ "+ monsterMaxDamage);
 
         //button onClick Listener
         btnNextTurn.setOnClickListener(this);
@@ -57,10 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        int turnNumber= 1;
+        txtLog.findViewById(R.id.txtCombatLog);
+
         Random randomizer = new Random();
-        int herodps = randomizer.nextInt((heroMaxDamage - heroMinDamage) + heroMaxDamage);
-        int monsdps = randomizer.nextInt((monsterMaxDamage - monsterMinDamage) + monsterMaxDamage);
+        int herodps = randomizer.nextInt(heroMaxDamage - heroMinDamage) + heroMaxDamage;
+        int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
         switch(v.getId()) {
             case R.id.btnNextTurn:
@@ -69,15 +80,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     monsterHP = monsterHP - herodps;
                     turnNumber++;
                     txtMonsHp.setText(String.valueOf(monsterHP));
+                    btnNextTurn.setText("Next Turn("+ turnNumber +")");
+
+                    txtLog.setText("Ally" + heroName +"dealt"+ herodps + " damage to the enemy");
+
+                    //Condition
+                    if(monsterHP < 0){
+                        txtLog.setText("The ally" + heroName +" dealt "+ herodps +" damage to the enemy." + heroName +"WON!");
+                        int heroHP = 1500;
+                        int monsterHP = 3000;
+                        int turnNumber= 1;
+                        btnNextTurn.setText("Play Again");
+                    }
+
                 }
                 else if(turnNumber%2 !=1){
                     heroHP = heroHP - herodps;
                     turnNumber++;
                     txtHeroHp.setText(String.valueOf(heroHP));
+                    btnNextTurn.setText("Next Turn("+ turnNumber +")");
+
+                    txtLog.setText("Enemy" + monsName +"dealt"+ herodps +" damage to    the enemy");
+
+                    //Condition
+                    if(monsterHP < 0){
+                        txtLog.setText("The enemy" + monsName +" dealt "+ monsdps +" damage to the ally." + monsName +"WON!");
+                        int heroHP = 1500;
+                        int monsterHP = 3000;
+                        int turnNumber= 1;
+                        btnNextTurn.setText("Play Again");
+                    }
                 }
                 break;
         }
-
-
     }
 }
