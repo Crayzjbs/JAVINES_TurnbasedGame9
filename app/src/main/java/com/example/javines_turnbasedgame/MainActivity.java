@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -11,12 +12,13 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //Global variable
-    TextView txtHeroName,txtMonsName,txtHeroHp,txtMonsHp,txtHeroMP,txtMonsMP,txtHeroDPS,txtMonsDPS,txtLog;
+    TextView txtHeroName, txtMonsName, txtHeroHp, txtMonsHp, txtHeroMP, txtMonsMP, txtHeroDPS, txtMonsDPS, txtLog;
     Button btnNextTurn;
+    ImageButton skill1, skill2, skill3, skill4;
 
     //HeroStats
 
-    String heroName = "Ches Cuares";
+    String heroName = "ChesCuares";
     int heroHP = 1500;
     int heroMp = 1000;
     int heroMinDamage = 100;
@@ -24,13 +26,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //MonsStats
 
-    String monsName = "Adrian Cuaton";
+    String monsName = "AdrianCuaton";
     int monsterHP = 3000;
     int monsterMP = 400;
     int monsterMinDamage = 40;
     int monsterMaxDamage = 55;
 
-    int turnNumber= 1;
+    int turnNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtLog.findViewById(R.id.txtCombatLog);
 
         //Damage Display
-        txtHeroDPS.setText(heroMinDamage + " ~ "+ heroMaxDamage);
-        txtMonsDPS.setText(monsterMinDamage + " ~ "+ monsterMaxDamage);
+        txtHeroDPS.setText(String.valueOf(heroMinDamage) + " ~ " + String.valueOf(heroMaxDamage));
+        txtMonsDPS.setText(String.valueOf(monsterMinDamage) + " ~ " + String.valueOf(monsterMaxDamage));
+
+        skill1 = findViewById(R.id.btnSkill1);
+        skill2 = findViewById(R.id.btnSkill2);
+        skill3 = findViewById(R.id.btnSkill3);
+        skill4 = findViewById(R.id.btnSkill4);
 
         //button onClick Listener
         btnNextTurn.setOnClickListener(this);
+        skill1.setOnClickListener(this);
     }
 
     @Override
@@ -73,45 +81,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int herodps = randomizer.nextInt(heroMaxDamage - heroMinDamage) + heroMaxDamage;
         int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
-        switch(v.getId()) {
-            case R.id.btnNextTurn:
+        //skill1 button condition
+        if (turnNumber % 2 != 1) {//enemy turn disable the button
+            skill1.setEnabled(false);
+        }else if (turnNumber % 2 == 1) {
+            skill1.setEnabled(true);
+        }
+        switch (v.getId()) {
+            case R.id.btnSkill1:
+                monsterHP = monsterHP - herodps;
+                turnNumber++;
+                txtMonsHp.setText(String.valueOf(monsterHP));
+                btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                if(turnNumber % 2 ==1){
-                    monsterHP = monsterHP - herodps;
+                txtLog.setText("Ally" + heroName + "dealt" + herodps + " damage to the enemy");
+
+                //Condition
+                if (monsterHP < 0) {//even
+                    txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy." + heroName + "WON!");
+                    int heroHP = 1500;
+                    int monsterHP = 3000;
+                    int turnNumber = 1;
+                    btnNextTurn.setText("Play Again");
+                }
+                break;
+            case R.id.btnNextTurn:
+                if (turnNumber % 2 == 1) { //odd
+                    monsterHP = monsterHP - 200;
                     turnNumber++;
                     txtMonsHp.setText(String.valueOf(monsterHP));
-                    btnNextTurn.setText("Next Turn("+ turnNumber +")");
+                    btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                    txtLog.setText("Ally" + heroName +"dealt"+ herodps + " damage to the enemy");
+                    txtLog.setText("Ally" + heroName + "dealt" + herodps + " damage to the enemy");
 
                     //Condition
-                    if(monsterHP < 0){
-                        txtLog.setText("The ally" + heroName +" dealt "+ herodps +" damage to the enemy." + heroName +"WON!");
+                    if (monsterHP < 0) {//even
+                        txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy." + heroName + "WON!");
                         int heroHP = 1500;
                         int monsterHP = 3000;
-                        int turnNumber= 1;
+                        int turnNumber = 1;
                         btnNextTurn.setText("Play Again");
                     }
 
-                }
-                else if(turnNumber%2 !=1){
+
+                } else if (turnNumber % 2 != 1) {
                     heroHP = heroHP - herodps;
                     turnNumber++;
                     txtHeroHp.setText(String.valueOf(heroHP));
-                    btnNextTurn.setText("Next Turn("+ turnNumber +")");
+                    btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                    txtLog.setText("Enemy" + monsName +"dealt"+ herodps +" damage to    the enemy");
+                    txtLog.setText("Enemy" + monsName + "dealt" + herodps + " damage to    the enemy");
 
                     //Condition
-                    if(monsterHP < 0){
-                        txtLog.setText("The enemy" + monsName +" dealt "+ monsdps +" damage to the ally." + monsName +"WON!");
+                    if (monsterHP < 0) {
+                        txtLog.setText("The enemy" + monsName + " dealt " + monsdps + " damage to the ally." + monsName + "WON!");
                         int heroHP = 1500;
                         int monsterHP = 3000;
-                        int turnNumber= 1;
+                        int turnNumber = 1;
                         btnNextTurn.setText("Play Again");
                     }
                 }
                 break;
+
         }
     }
+
 }
