@@ -18,21 +18,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //HeroStats
 
-    String heroName = "ChesCuares";
-    int heroHP = 1500;
+    String heroName = "CJ";
+    int heroHP = 1300;
     int heroMp = 1000;
     int heroMinDamage = 100;
     int heroMaxDamage = 150;
 
     //MonsStats
 
-    String monsName = "AdrianCuaton";
+    String monsName = "Cuats";
     int monsterHP = 3000;
     int monsterMP = 400;
-    int monsterMinDamage = 40;
+    int monsterMinDamage = 50;
     int monsterMaxDamage = 55;
 
     int turnNumber = 1;
+
+    //status
+    boolean disabledstatus = false;
+    int statuscounter = 0;
+    int buttoncounter = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtMonsDPS = findViewById(R.id.txtMonsDPS);
 
         txtHeroHp.setText(heroName);
-        txtHeroHp.setText(String.valueOf(heroMp));
-        txtHeroMP.setText(String.valueOf(heroHP));
+        txtHeroHp.setText(String.valueOf(heroHP));
+        txtHeroMP.setText(String.valueOf(heroMp));
 
         txtMonsHp.setText(monsName);
         txtMonsHp.setText(String.valueOf(monsterHP));
         txtMonsMP.setText(String.valueOf(monsterMP));
 
-        txtLog.findViewById(R.id.txtCombatLog);
+        txtLog = findViewById(R.id.txtCombatLog);
 
         //Damage Display
         txtHeroDPS.setText(String.valueOf(heroMinDamage) + " ~ " + String.valueOf(heroMaxDamage));
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //button onClick Listener
         btnNextTurn.setOnClickListener(this);
         skill1.setOnClickListener(this);
+        skill4.setOnClickListener(this);
     }
 
     @Override
@@ -81,29 +88,105 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int herodps = randomizer.nextInt(heroMaxDamage - heroMinDamage) + heroMaxDamage;
         int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
-        //skill1 button condition
+        int critChance = randomizer.nextInt(5);
+
+        if(critChance==1){
+
+        }
+
+        //skill1 button conditions
+
         if (turnNumber % 2 != 1) {//enemy turn disable the button
             skill1.setEnabled(false);
         }else if (turnNumber % 2 == 1) {
             skill1.setEnabled(true);
         }
-        switch (v.getId()) {
-            case R.id.btnSkill1:
-                monsterHP = monsterHP - herodps;
+
+        if(buttoncounter>0){
+            skill1.setEnabled(false);
+            buttoncounter--;
+        }
+        else if(buttoncounter==0){
+            skill1.setEnabled(true);
+        }
+
+        //Skill 4 button conditions
+
+        if(turnNumber % 2 != 1){//button disabler if the skill have been used
+            skill4.setEnabled(false);
+        }
+        else if(turnNumber%2 ==1){
+            skill4.setEnabled(true);
+        }
+        if(buttoncounter>0){
+            skill4.setEnabled(false);
+            buttoncounter--;
+        }
+        else if(buttoncounter==0){
+            skill4.setEnabled(true);
+        }
+
+
+       //skill 4
+
+
+        switch (v.getId()){
+            case R.id.btnSkill4:
+
+                monsterHP = monsterHP - (heroMaxDamage + 110);
                 turnNumber++;
                 txtMonsHp.setText(String.valueOf(monsterHP));
                 btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                txtLog.setText("Ally" + heroName + "dealt" + herodps + " damage to the enemy");
+                txtLog.setText(" Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage ");
+
 
                 //Condition
                 if (monsterHP < 0) {//even
-                    txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy." + heroName + "WON!");
-                    int heroHP = 1500;
-                    int monsterHP = 3000;
-                    int turnNumber = 1;
+                    txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
+                    heroHP = 1300;
+                    monsterHP = 3000;
+                    turnNumber = 1;
                     btnNextTurn.setText("Play Again");
                 }
+                buttoncounter=12;
+                buttoncounter--;
+
+
+
+                break;
+        }
+
+        switch (v.getId()) {
+
+
+
+            // Skill 1
+
+
+
+            case R.id.btnSkill1: //STUN
+                monsterHP = monsterHP - 200;
+                turnNumber++;
+                txtMonsHp.setText(String.valueOf(monsterHP));
+                btnNextTurn.setText("Next Turn(" + turnNumber + ")");
+
+                txtLog.setText("Ally " + heroName + " stuned " + monsName + " and dealt " + 200 + " damage to the enemy. Enemy stunned for 3 turns ");
+
+                disabledstatus = true;
+                statuscounter = 3;
+
+                //Condition for stun
+                if (monsterHP <= 0) {//even
+                    txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy");
+                    heroHP = 1300;
+                    monsterHP = 3000;
+                    turnNumber = 1;
+                    btnNextTurn.setText("Play Again");
+                }
+                buttoncounter=12;
+                buttoncounter--;
+
                 break;
             case R.id.btnNextTurn:
                 if (turnNumber % 2 == 1) { //odd
@@ -112,38 +195,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtMonsHp.setText(String.valueOf(monsterHP));
                     btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                    txtLog.setText("Ally" + heroName + "dealt" + herodps + " damage to the enemy");
+                    txtLog.setText(" Ally " + heroName + " striked "+ monsName + " with " + herodps + " pure damage ");
 
                     //Condition
                     if (monsterHP < 0) {//even
-                        txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy." + heroName + "WON!");
-                        int heroHP = 1500;
-                        int monsterHP = 3000;
-                        int turnNumber = 1;
+                        txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
+                        heroHP = 1300;
+                        monsterHP = 3000;
+                        turnNumber = 1;
                         btnNextTurn.setText("Play Again");
                     }
+                    if(statuscounter>0){ //stun reduce while enemy is still stunned
+                        statuscounter--;
+                        if(statuscounter==0){
+                            disabledstatus=false;
+                        }
 
+                    }
+                    buttoncounter--;
 
                 } else if (turnNumber % 2 != 1) {
-                    heroHP = heroHP - herodps;
-                    turnNumber++;
-                    txtHeroHp.setText(String.valueOf(heroHP));
-                    btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                    txtLog.setText("Enemy" + monsName + "dealt" + herodps + " damage to    the enemy");
-
-                    //Condition
-                    if (monsterHP < 0) {
-                        txtLog.setText("The enemy" + monsName + " dealt " + monsdps + " damage to the ally." + monsName + "WON!");
-                        int heroHP = 1500;
-                        int monsterHP = 3000;
-                        int turnNumber = 1;
-                        btnNextTurn.setText("Play Again");
+                    if(disabledstatus==true){
+                        txtLog.setText(" Cuats is stunned for " + String.valueOf(statuscounter)+ " turns ");
+                        statuscounter--;
+                        if(statuscounter==0){
+                            disabledstatus=false;
+                        }
                     }
+
+                    else{
+                        heroHP = heroHP - herodps;
+                        turnNumber++;
+                        txtHeroHp.setText(String.valueOf(heroHP));
+                        btnNextTurn.setText("Next Turn(" + turnNumber + ")");
+
+                        txtLog.setText(" Enemy " + monsName + " striked "+ heroName+ " with " + herodps + " pure damage ");
+
+                        //Condition
+                        if (heroHP <= 0) {
+                            txtLog.setText(" The enemy " + monsName + " dealt " + monsdps + " damage to the ally." + monsName + " WON!");
+                            heroHP = 1300;
+                            monsterHP = 3000;
+                            turnNumber = 1;
+                            btnNextTurn.setText(" Play Again ");
+                        }
+                    }
+                    buttoncounter--;
+
                 }
                 break;
 
-        }
+        }           //tapos na sa seperation of cooldowns
+                    // work on the 2 passive(crit and life steal)
+                    // add backgroud,BGM,characters and designs
     }
 
 }
