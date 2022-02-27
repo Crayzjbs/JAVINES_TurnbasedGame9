@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //HeroStats
 
     String heroName = "CJ";
-    int heroHP = 1300;
+    int heroHP = 800;
     int heroMp = 1000;
     int heroMinDamage = 100;
     int heroMaxDamage = 150;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         txtHeroName = findViewById(R.id.txtHeroName);
         txtMonsName = findViewById(R.id.txtMonsName);
         txtHeroHp = findViewById(R.id.txtHeroHP);
@@ -92,25 +93,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(damageBoost==1){
             monsterHP = monsterHP -(heroMaxDamage + 50);
-
-
-
         }
 
         int lifeSteal = randomizer.nextInt(100);
-        if (lifeSteal<=30){
-            heroHP = heroHP + (herodps - 100);
-            turnNumber++;
-            txtHeroHp.setText(String.valueOf(heroHP));
-            btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
+        if (lifeSteal<=10){
+            heroHP = heroHP + (herodps - 100);
         }
 
         //skill1 button conditions
 
         if (turnNumber % 2 != 1) {//enemy turn disable the button
             skill1.setEnabled(false);
-        }else if (turnNumber % 2 == 1) {
+        }
+        else if (turnNumber%2 == 1) {
             skill1.setEnabled(true);
         }
 
@@ -124,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Skill 4 button conditions
 
-        if(turnNumber % 2 != 1){//button disabler if the skill have been used
+        if(turnNumber% 2 != 1){//button disabler if the skill have been used
             skill4.setEnabled(false);
         }
-        else if(turnNumber%2 ==1){
+        else if(turnNumber%2 == 1){
             skill4.setEnabled(true);
         }
         if(buttoncounter>0){
@@ -142,7 +138,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        //skill 4
 
 
-        switch (v.getId()){
+
+        switch (v.getId()) {
+
+
             case R.id.btnSkill4://damage up
 
                 monsterHP = monsterHP - (heroMaxDamage + 110);
@@ -156,24 +155,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Condition
                 if (monsterHP < 0) {//even
                     txtLog.setText( " Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage " + heroName + " WON!");
-                    heroHP = 1300;
+                    heroHP = 800;
                     monsterHP = 3000;
                     turnNumber = 1;
                     btnNextTurn.setText("Play Again");
                 }
-                buttoncounter=12;
+                buttoncounter=10;
                 buttoncounter--;
 
-
-
                 break;
-        }
-
-        switch (v.getId()) {
 
 
 
-            // Skill 1
+      // Skill 1
+
 
 
 
@@ -190,8 +185,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //Condition for stun
                 if (monsterHP <= 0) {//even
-                    txtLog.setText("The ally" + heroName + " dealt " + herodps + " damage to the enemy");
-                    heroHP = 1300;
+                    txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy");
+                    heroHP = 800;
                     monsterHP = 3000;
                     turnNumber = 1;
                     btnNextTurn.setText("Play Again");
@@ -212,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //Condition
                     if (monsterHP < 0) {//even
                         txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
-                        heroHP = 1300;
+                        heroHP = 800;
                         monsterHP = 3000;
                         turnNumber = 1;
                         btnNextTurn.setText("Play Again");
@@ -237,17 +232,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     else{
-                        heroHP = heroHP - herodps;
+                        heroHP = heroHP - monsdps;
                         turnNumber++;
                         txtHeroHp.setText(String.valueOf(heroHP));
                         btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
-                        txtLog.setText(" Enemy " + monsName + " striked "+ heroName+ " with " + herodps + " pure damage ");
+                        txtLog.setText(" Enemy " + monsName + " striked "+ heroName+ " with " + monsdps + " pure damage ");
 
                         //Condition
                         if (heroHP <= 0) {
                             txtLog.setText(" The enemy " + monsName + " dealt " + monsdps + " damage to the ally." + monsName + " WON!");
-                            heroHP = 1300;
+                            heroHP = 800;
                             monsterHP = 3000;
                             turnNumber = 1;
                             btnNextTurn.setText(" Play Again ");
