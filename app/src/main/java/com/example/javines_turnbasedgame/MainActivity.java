@@ -258,9 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-        }           //tapos na sa seperation of cooldowns
-                    // work on the 2 passive(crit and life steal)
-                    // add backgroud,BGM,characters and designs
+        }
     }
 
 }
