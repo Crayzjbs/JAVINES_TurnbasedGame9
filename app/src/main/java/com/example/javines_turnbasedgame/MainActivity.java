@@ -88,9 +88,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int herodps = randomizer.nextInt(heroMaxDamage - heroMinDamage) + heroMaxDamage;
         int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
-        int critChance = randomizer.nextInt(5);
+        int damageBoost = randomizer.nextInt(5);
 
-        if(critChance==1){
+        if(damageBoost==1){
+            monsterHP = monsterHP -(heroMaxDamage + 50);
+
+
+
+        }
+
+        int lifeSteal = randomizer.nextInt(100);
+        if (lifeSteal<=30){
+            heroHP = heroHP + (herodps - 100);
+            turnNumber++;
+            txtHeroHp.setText(String.valueOf(heroHP));
+            btnNextTurn.setText("Next Turn(" + turnNumber + ")");
 
         }
 
@@ -131,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         switch (v.getId()){
-            case R.id.btnSkill4:
+            case R.id.btnSkill4://damage up
 
                 monsterHP = monsterHP - (heroMaxDamage + 110);
                 turnNumber++;
@@ -143,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //Condition
                 if (monsterHP < 0) {//even
-                    txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
+                    txtLog.setText( " Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage " + heroName + " WON!");
                     heroHP = 1300;
                     monsterHP = 3000;
                     turnNumber = 1;
