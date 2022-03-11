@@ -3,6 +3,8 @@ package com.example.javines_turnbasedgame;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton skill1, skill2, skill3, skill4;
 
     //HeroStats
-
     String heroName = "CJ";
     int heroHP = 800;
     int heroMp = 1000;
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int heroMaxDamage = 150;
 
     //MonsStats
-
     String monsName = "Cuats";
     int monsterHP = 3000;
     int monsterMP = 400;
@@ -43,7 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide(); //hide the action bar
         setContentView(R.layout.activity_main);
+
 
         txtHeroName = findViewById(R.id.txtHeroName);
         txtMonsName = findViewById(R.id.txtMonsName);
@@ -54,15 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNextTurn = findViewById(R.id.btnNextTurn);
         txtHeroDPS = findViewById(R.id.txtHeroDPS);
         txtMonsDPS = findViewById(R.id.txtMonsDPS);
-
         txtHeroHp.setText(heroName);
         txtHeroHp.setText(String.valueOf(heroHP));
         txtHeroMP.setText(String.valueOf(heroMp));
-
         txtMonsHp.setText(monsName);
         txtMonsHp.setText(String.valueOf(monsterHP));
         txtMonsMP.setText(String.valueOf(monsterMP));
-
         txtLog = findViewById(R.id.txtCombatLog);
 
         //Damage Display
@@ -96,20 +98,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         int lifeSteal = randomizer.nextInt(100);
-
         if (lifeSteal<=10){
             heroHP = heroHP + (herodps - 100);
         }
 
         //skill1 button conditions
 
-        if (turnNumber % 2 != 1) {//enemy turn disable the button
+        if (turnNumber % 2 != 1) {
             skill1.setEnabled(false);
         }
         else if (turnNumber%2 == 1) {
             skill1.setEnabled(true);
         }
-
         if(buttoncounter>0){
             skill1.setEnabled(false);
             buttoncounter--;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Skill 4 button conditions
 
-        if(turnNumber% 2 != 1){//button disabler if the skill have been used
+        if(turnNumber% 2 != 1){
             skill4.setEnabled(false);
         }
         else if(turnNumber%2 == 1){
@@ -134,13 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             skill4.setEnabled(true);
         }
 
-
        //skill 4
 
-
-
         switch (v.getId()) {
-
 
             case R.id.btnSkill4://damage up
 
@@ -148,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 turnNumber++;
                 txtMonsHp.setText(String.valueOf(monsterHP));
                 btnNextTurn.setText("Next Turn(" + turnNumber + ")");
-
                 txtLog.setText(" Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage ");
 
 
@@ -165,20 +160,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-
-
       // Skill 1
 
-
-
-
             case R.id.btnSkill1: //STUN
+
+
                 monsterHP = monsterHP - 200;
                 turnNumber++;
                 txtMonsHp.setText(String.valueOf(monsterHP));
                 btnNextTurn.setText("Next Turn(" + turnNumber + ")");
-
-                txtLog.setText("Ally " + heroName + " stuned " + monsName + " and dealt " + 200 + " damage to the enemy. Enemy stunned for 3 turns ");
+                txtLog.setText("Ally " + heroName + " stuned " + monsName + " and dealt " + 200 + " damage.Enemy stunned for 3 turns ");
 
                 disabledstatus = true;
                 statuscounter = 3;
@@ -197,15 +188,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnNextTurn:
                 if (turnNumber % 2 == 1) { //odd
-                    monsterHP = monsterHP - 200;
+                    monsterHP = Math.max(0,monsterHP - herodps);
                     turnNumber++;
                     txtMonsHp.setText(String.valueOf(monsterHP));
                     btnNextTurn.setText("Next Turn(" + turnNumber + ")");
-
                     txtLog.setText(" Ally " + heroName + " striked "+ monsName + " with " + herodps + " pure damage ");
 
-                    //Condition
-                    if (monsterHP < 0) {//even
+                    if (monsterHP <= 0) {//even
                         txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
                         heroHP = 800;
                         monsterHP = 3000;
@@ -230,9 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             disabledstatus=false;
                         }
                     }
-
                     else{
-                        heroHP = heroHP - monsdps;
+                        heroHP = Math.max(0, heroHP - monsdps);
                         turnNumber++;
                         txtHeroHp.setText(String.valueOf(heroHP));
                         btnNextTurn.setText("Next Turn(" + turnNumber + ")");
@@ -249,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                     buttoncounter--;
-
                 }
                 break;
 

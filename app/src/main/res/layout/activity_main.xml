@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
- <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     tools:context=".MainActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/uiBG"
+        android:layout_width="720dp"
+        android:layout_height="411dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/background" />
 
     <TextView
         android:id="@+id/txtHeroName"
         android:layout_width="86dp"
         android:layout_height="31dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginStart="40dp"
         android:text="Ches Cuares"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.576" />
 
     <TextView
         android:id="@+id/txtHeroHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         android:text="MintalHP"
-        app:layout_constraintStart_toStartOf="@+id/txtHeroName"
+        app:layout_constraintEnd_toEndOf="@+id/txtHeroDPS"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtHeroDPS"
         app:layout_constraintTop_toBottomOf="@+id/txtHeroName" />
 
     <TextView
         android:id="@+id/txtHeroDPS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:text="Cuares Damage"
-        app:layout_constraintStart_toStartOf="@+id/txtHeroName"
+        app:layout_constraintEnd_toStartOf="@+id/btnNextTurn"
+        app:layout_constraintHorizontal_bias="0.241"
+        app:layout_constraintStart_toStartOf="@+id/uiBG"
         app:layout_constraintTop_toBottomOf="@+id/txtHeroName" />
 
     <TextView
@@ -47,16 +65,19 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtHeroHP"
         app:layout_constraintTop_toBottomOf="@+id/txtHeroHP"
-        app:layout_constraintVertical_bias="0.01" />
+        app:layout_constraintVertical_bias="0.026" />
 
     <TextView
         android:id="@+id/txtMonsName"
         android:layout_width="89dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="68dp"
         android:text="Adrian Cuaton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtHeroName" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/uiBG"
+        app:layout_constraintHorizontal_bias="0.908"
+        app:layout_constraintStart_toStartOf="@+id/uiBG"
+        app:layout_constraintTop_toTopOf="@+id/uiBG"
+        app:layout_constraintVertical_bias="0.575" />
 
     <TextView
         android:id="@+id/txtMonsDPS"
@@ -64,69 +85,70 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Cuaton Damage"
-        app:layout_constraintBottom_toTopOf="@+id/txtMonsHP"
+        app:layout_constraintBottom_toBottomOf="@+id/txtHeroDPS"
         app:layout_constraintEnd_toEndOf="@+id/txtMonsName"
-        app:layout_constraintHorizontal_bias="0.992"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/txtHeroDPS"
         app:layout_constraintTop_toBottomOf="@+id/txtMonsName"
-        app:layout_constraintVertical_bias="0.222" />
+        app:layout_constraintVertical_bias="1.0" />
 
-   <TextView
-       android:id="@+id/txtMonsMP"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginEnd="4dp"
-       android:text="MatinaMP"
-       app:layout_constraintEnd_toEndOf="@+id/txtMonsHP"
-       app:layout_constraintTop_toTopOf="@+id/txtHeroMP" />
+    <TextView
+        android:id="@+id/txtMonsMP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MatinaMP"
+        app:layout_constraintBottom_toBottomOf="@+id/txtHeroMP"
+        app:layout_constraintEnd_toEndOf="@+id/txtMonsHP"
+        app:layout_constraintTop_toTopOf="@+id/txtHeroMP"
+        app:layout_constraintVertical_bias="0.0" />
 
-   <TextView
+    <TextView
         android:id="@+id/txtMonsHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:text="MatinaHP"
-        app:layout_constraintEnd_toEndOf="@+id/txtMonsName"
-        app:layout_constraintHorizontal_bias="0.993"
+        app:layout_constraintEnd_toEndOf="@+id/txtMonsDPS"
+        app:layout_constraintHorizontal_bias="0.995"
         app:layout_constraintStart_toEndOf="@+id/txtHeroHP"
-        app:layout_constraintTop_toBottomOf="@+id/txtMonsName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMonsDPS" />
 
     <Button
-       android:id="@+id/btnNextTurn"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="36dp"
-       android:text="First turn"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toStartOf="@+id/txtMonsDPS"
-       app:layout_constraintHorizontal_bias="0.501"
-       app:layout_constraintStart_toEndOf="@+id/txtHeroDPS"
-       app:layout_constraintTop_toTopOf="@+id/txtHeroDPS"
-       app:layout_constraintVertical_bias="0.0" />
+        android:id="@+id/btnNextTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First turn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txtMonsName"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toEndOf="@+id/txtHeroName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.625" />
 
-   <TextView
-       android:id="@+id/txtCombatLog"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="16dp"
-       android:text="Combat Log"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.905"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/txtCombatLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Combat Log"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-   <ImageButton
+    <ImageButton
         android:id="@+id/btnSkill1"
         android:layout_width="88dp"
         android:layout_height="82dp"
         android:layout_marginTop="4dp"
         android:scaleType="fitXY"
         android:text="Stun"
+        app:layout_constraintBottom_toBottomOf="@+id/uiBG"
         app:layout_constraintEnd_toStartOf="@+id/btnSkill2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNextTurn"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/skill1" />
 
     <ImageButton
@@ -136,10 +158,12 @@
         android:clickable="false"
         android:scaleType="fitXY"
         android:text="crit"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSkill1"
         app:layout_constraintEnd_toStartOf="@+id/btnSkill3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnSkill1"
         app:layout_constraintTop_toTopOf="@+id/btnSkill1"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/skill2" />
 
     <ImageButton
@@ -149,6 +173,7 @@
         android:clickable="false"
         android:scaleType="fitXY"
         android:text="Lifesteal"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSkill2"
         app:layout_constraintEnd_toStartOf="@+id/btnSkill4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnSkill2"
@@ -161,10 +186,35 @@
         android:layout_height="81dp"
         android:scaleType="fitXY"
         android:text="SuperSkill"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSkill2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnSkill3"
         app:layout_constraintTop_toTopOf="@+id/btnSkill3"
         app:srcCompat="@drawable/skill4" />
+
+    <ImageView
+        android:id="@+id/stun"
+        android:layout_width="172dp"
+        android:layout_height="44dp"
+        app:layout_constraintBottom_toBottomOf="@+id/uiBG"
+        app:layout_constraintEnd_toEndOf="@+id/uiBG"
+        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/uiBG"
+        app:layout_constraintVertical_bias="0.967"
+        app:srcCompat="@drawable/stun1" />
+
+    <ImageView
+        android:id="@+id/lifesteal"
+        android:layout_width="113dp"
+        android:layout_height="38dp"
+        app:layout_constraintBottom_toBottomOf="@+id/uiBG"
+        app:layout_constraintEnd_toEndOf="@+id/uiBG"
+        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintStart_toStartOf="@+id/uiBG"
+        app:layout_constraintTop_toTopOf="@+id/uiBG"
+        app:layout_constraintVertical_bias="0.957"
+        app:srcCompat="@drawable/lifesteal2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
