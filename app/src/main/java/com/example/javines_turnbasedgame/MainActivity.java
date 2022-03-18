@@ -1,6 +1,8 @@
 package com.example.javines_turnbasedgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txtHeroName, txtMonsName, txtHeroHp, txtMonsHp, txtHeroMP, txtMonsMP, txtHeroDPS, txtMonsDPS, txtLog;
     Button btnNextTurn;
     ImageButton skill1, skill2, skill3, skill4;
+    MediaPlayer bgm;
 
     //HeroStats
     String heroName = "CJ";
@@ -49,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().hide(); //hide the action bar
         setContentView(R.layout.activity_main);
 
-
         txtHeroName = findViewById(R.id.txtHeroName);
         txtMonsName = findViewById(R.id.txtMonsName);
         txtHeroHp = findViewById(R.id.txtHeroHP);
@@ -80,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNextTurn.setOnClickListener(this);
         skill1.setOnClickListener(this);
         skill4.setOnClickListener(this);
+
+        bgm = MediaPlayer.create(this,R.raw.bgm1);
+        bgm.setLooping(true);
+        bgm.setVolume(30, 30);
+        bgm.start();
+
+
     }
 
     @Override
@@ -92,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
         int damageBoost = randomizer.nextInt(5);
-
+        //Critchance
         if(damageBoost==1){
             monsterHP = monsterHP -(heroMaxDamage + 50);
         }
 
         int lifeSteal = randomizer.nextInt(100);
-        if (lifeSteal<=10){
-            heroHP = heroHP + (herodps - 100);
+        if (lifeSteal<=5){
+            heroHP = heroHP + (herodps - 120);
         }
 
         //skill1 button conditions
@@ -123,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(turnNumber% 2 != 1){
             skill4.setEnabled(false);
         }
-        else if(turnNumber%2 == 1){
+
+        else if(turnNumber% 2 == 1){
             skill4.setEnabled(true);
         }
         if(buttoncounter>0){
@@ -134,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             skill4.setEnabled(true);
         }
 
-       //skill 4
+       //skill 4 - BEAST PUNCH
 
         switch (v.getId()) {
 
@@ -148,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 //Condition
-                if (monsterHP < 0) {//even
+                if (monsterHP <= 0) {
                     txtLog.setText( " Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage " + heroName + " WON!");
                     heroHP = 800;
                     monsterHP = 3000;
@@ -159,9 +169,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttoncounter--;
 
                 break;
-
-      // Skill 1
-
+        }
+        //skill 1 - thunder light
+        switch (v.getId()){
             case R.id.btnSkill1: //STUN
 
 
@@ -175,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 statuscounter = 3;
 
                 //Condition for stun
-                if (monsterHP <= 0) {//even
+                if (monsterHP <= 0) {
                     txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy");
                     heroHP = 800;
                     monsterHP = 3000;
@@ -186,15 +196,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttoncounter--;
 
                 break;
+
             case R.id.btnNextTurn:
-                if (turnNumber % 2 == 1) { //odd
+                if (turnNumber % 2 == 1) {
                     monsterHP = Math.max(0,monsterHP - herodps);
                     turnNumber++;
                     txtMonsHp.setText(String.valueOf(monsterHP));
                     btnNextTurn.setText("Next Turn(" + turnNumber + ")");
                     txtLog.setText(" Ally " + heroName + " striked "+ monsName + " with " + herodps + " pure damage ");
 
-                    if (monsterHP <= 0) {//even
+                    if (monsterHP <= 0) {
                         txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
                         heroHP = 800;
                         monsterHP = 3000;
