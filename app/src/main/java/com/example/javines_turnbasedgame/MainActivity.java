@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtMonsMP.setText(String.valueOf(monsterMP));
         txtLog = findViewById(R.id.txtCombatLog);
 
-        //Damage Display
+    //Damage Display
         txtHeroDPS.setText(String.valueOf(heroMinDamage) + " ~ " + String.valueOf(heroMaxDamage));
         txtMonsDPS.setText(String.valueOf(monsterMinDamage) + " ~ " + String.valueOf(monsterMaxDamage));
 
@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         skill3 = findViewById(R.id.btnSkill3);
         skill4 = findViewById(R.id.btnSkill4);
 
-        //button onClick Listener
+    //button onClick Listener
         btnNextTurn.setOnClickListener(this);
         skill1.setOnClickListener(this);
         skill4.setOnClickListener(this);
-
+    //button music player
         bgm = MediaPlayer.create(this,R.raw.bgm1);
         bgm.setLooping(true);
         bgm.setVolume(30, 30);
