@@ -25,15 +25,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String heroName = "CJ";
     int heroHP = 800;
     int heroMp = 1000;
-    int heroMinDamage = 100;
-    int heroMaxDamage = 150;
+    int heroMinDamage = 80;
+    int heroMaxDamage = 110;
 
     //MonsStats
     String monsName = "Cuats";
     int monsterHP = 3000;
     int monsterMP = 400;
-    int monsterMinDamage = 50;
-    int monsterMaxDamage = 55;
+    int monsterMinDamage = 60;
+    int monsterMaxDamage = 70;
 
     int turnNumber = 1;
 
@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNextTurn.setOnClickListener(this);
         skill1.setOnClickListener(this);
         skill4.setOnClickListener(this);
-    //button musicplayer
+
+    //button music player
         bgm = MediaPlayer.create(this,R.raw.bgm1);
         bgm.setLooping(true);
         bgm.setVolume(80, 80);
@@ -99,14 +100,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int monsdps = randomizer.nextInt(monsterMaxDamage - monsterMinDamage) + monsterMinDamage;
 
         int damageBoost = randomizer.nextInt(5);
-        //Critchance
-        if(damageBoost==1){
-            monsterHP = monsterHP -(heroMaxDamage + 50);
+
+        //Critical chance
+        int critical = randomizer.nextInt(100);
+        if(critical<=1){
+            monsterHP = monsterHP -(heroMaxDamage + 30);
         }
 
         int lifeSteal = randomizer.nextInt(100);
         if (lifeSteal<=5){
-            heroHP = heroHP + (herodps - 120);
+            heroHP = heroHP + (herodps - 130);
         }
 
         //skill1 button conditions
@@ -128,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             skill1.setEnabled(true);
             skill1.setAlpha(1f);
         }
+        if(heroMp <=0){
+            skill1.setEnabled(false);
+            skill1.setAlpha(0.5f);
+        }
+
 
         //Skill 4 button conditions
 
@@ -149,51 +157,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             skill4.setEnabled(true);
             skill4.setAlpha(1f);
         }
-
-       //skill 4 - BEAST PUNCH
-
-        switch (v.getId()) {
-
-            case R.id.btnSkill4://damage up
-
-                monsterHP = monsterHP - (heroMaxDamage + 110);
-                turnNumber++;
-                txtMonsHp.setText(String.valueOf(monsterHP));
-                btnNextTurn.setText("Next Turn(" + turnNumber + ")");
-                txtLog.setText(" Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage ");
-
-
-                //Condition
-                if (monsterHP <= 0) {
-                    txtLog.setText( " Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage " + heroName + " WON!");
-                    heroHP = 800;
-                    monsterHP = 3000;
-                    turnNumber = 1;
-                    btnNextTurn.setText("Play Again");
-                }
-                buttoncounter=12;
-                buttoncounter--;
-
-                break;
+        if(heroMp <=0){
+            skill4.setEnabled(false);
+            skill4.setAlpha(0.5f);
         }
+
         //skill 1 - thunder light
         switch (v.getId()){
             case R.id.btnSkill1: //STUN
 
-                monsterHP = monsterHP - 200;
+                monsterHP = monsterHP - 100;
+                heroMp = heroMp - 100;
+                txtHeroMP.setText(String.valueOf(heroMp));
                 turnNumber++;
                 txtMonsHp.setText(String.valueOf(monsterHP));
                 btnNextTurn.setText("Next Turn(" + turnNumber + ")");
-                txtLog.setText("Ally " + heroName + " stuned " + monsName + " and dealt " + 200 + " damage.Enemy stunned for 3 turns ");
+                txtLog.setText("Ally " + heroName + " stuned " + monsName + " and dealt " + 100 + " damage. Enemy stunned for 3 turns ");
 
                 disabledstatus = true;
                 statuscounter = 3;
+                if (heroMp <= 0){
+                    skill4.setEnabled(false);
+                }
 
                 //Condition for stun
                 if (monsterHP <= 0) {
                     txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy");
                     heroHP = 800;
                     monsterHP = 3000;
+                    heroMp=1000;
                     turnNumber = 1;
                     btnNextTurn.setText("Play Again");
                 }
@@ -210,10 +202,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     btnNextTurn.setText("Next Turn(" + turnNumber + ")");
                     txtLog.setText(" Ally " + heroName + " striked "+ monsName + " with " + herodps + " pure damage ");
 
-                    if (monsterHP <= 0) {
+                if (monsterHP <= 0) {
                         txtLog.setText(" The ally " + heroName + " dealt " + herodps + " damage to the enemy. " + heroName + " WON!");
                         heroHP = 800;
                         monsterHP = 3000;
+                        heroMp=1000;
                         turnNumber = 1;
                         btnNextTurn.setText("Play Again");
                     }
@@ -222,7 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if(statuscounter==0){
                             disabledstatus=false;
                         }
-
                     }
                     buttoncounter--;
 
@@ -248,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             txtLog.setText(" The enemy " + monsName + " dealt " + monsdps + " damage to the ally." + monsName + " WON!");
                             heroHP = 800;
                             monsterHP = 3000;
+                            heroMp=1000;
                             turnNumber = 1;
                             btnNextTurn.setText(" Play Again ");
                         }
@@ -255,7 +248,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     buttoncounter--;
                 }
                 break;
+        }
+        //skill 4 - BEAST PUNCH
 
+        switch (v.getId()) {
+
+            case R.id.btnSkill4://damage up
+
+                    monsterHP = monsterHP - (herodps + 50);
+                    heroMp = heroMp - 130;
+                    txtHeroMP.setText(String.valueOf(heroMp));
+                    turnNumber++;
+                    txtMonsHp.setText(String.valueOf(monsterHP));
+                    btnNextTurn.setText("Next Turn(" + turnNumber + ")");
+                    txtLog.setText(" Ally " + heroName + " punched "+ monsName + " for " + (herodps+ 50) + " pure damage ");
+
+
+                    //Condition
+                    if (monsterHP <=0) {
+                    txtLog.setText( " Ally " + heroName + " punched "+ monsName + " for " + (heroMaxDamage + 110) + " pure damage " + heroName + " WON!");
+                    heroHP = 800;
+                    monsterHP = 3000;
+                    heroMp=1000;
+                    turnNumber = 1;
+                    btnNextTurn.setText("Play Again");
+                    }
+
+                buttoncounter=12;
+                buttoncounter--;
+
+                break;
         }
     }
 
