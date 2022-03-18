@@ -85,10 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //button musicplayer
         bgm = MediaPlayer.create(this,R.raw.bgm1);
         bgm.setLooping(true);
-        bgm.setVolume(30, 30);
+        bgm.setVolume(80, 80);
         bgm.start();
-
-
     }
 
     @Override
@@ -115,33 +113,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (turnNumber % 2 != 1) {
             skill1.setEnabled(false);
+            skill1.setAlpha(0.5f);
         }
         else if (turnNumber%2 == 1) {
             skill1.setEnabled(true);
+            skill1.setAlpha(1f);
         }
         if(buttoncounter>0){
             skill1.setEnabled(false);
+            skill1.setAlpha(0.5f);
             buttoncounter--;
         }
         else if(buttoncounter==0){
             skill1.setEnabled(true);
+            skill1.setAlpha(1f);
         }
 
         //Skill 4 button conditions
 
         if(turnNumber% 2 != 1){
             skill4.setEnabled(false);
+            skill4.setAlpha(0.5f);
         }
 
         else if(turnNumber% 2 == 1){
             skill4.setEnabled(true);
+            skill4.setAlpha(1f);
         }
         if(buttoncounter>0){
             skill4.setEnabled(false);
+            skill4.setAlpha(0.5f);
             buttoncounter--;
         }
         else if(buttoncounter==0){
             skill4.setEnabled(true);
+            skill4.setAlpha(1f);
         }
 
        //skill 4 - BEAST PUNCH
@@ -165,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     turnNumber = 1;
                     btnNextTurn.setText("Play Again");
                 }
-                buttoncounter=10;
+                buttoncounter=12;
                 buttoncounter--;
 
                 break;
@@ -173,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //skill 1 - thunder light
         switch (v.getId()){
             case R.id.btnSkill1: //STUN
-
 
                 monsterHP = monsterHP - 200;
                 turnNumber++;

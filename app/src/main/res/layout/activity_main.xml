@@ -9,16 +9,15 @@
 
     <ImageView
         android:id="@+id/uiBG"
-        android:layout_width="720dp"
-        android:layout_height="411dp"
+        android:layout_width="740dp"
+        android:layout_height="395dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background" />
 
     <TextView
@@ -30,10 +29,10 @@
         android:text="Ches Cuares"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNextTurn"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtHeroDPS"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.589" />
+        app:layout_constraintVertical_bias="0.591" />
 
     <TextView
         android:id="@+id/txtHeroHP"
@@ -152,7 +151,6 @@
         android:id="@+id/btnSkill1"
         android:layout_width="88dp"
         android:layout_height="82dp"
-        android:layout_marginTop="4dp"
         android:scaleType="fitXY"
         android:text="Stun"
         app:layout_constraintBottom_toBottomOf="@+id/uiBG"
@@ -191,6 +189,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnSkill2"
         app:layout_constraintTop_toTopOf="@+id/btnSkill2"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/skill3" />
 
     <ImageButton
@@ -208,44 +207,44 @@
 
     <ImageView
         android:id="@+id/stun"
-        android:layout_width="181dp"
-        android:layout_height="53dp"
+        android:layout_width="165dp"
+        android:layout_height="44dp"
         app:layout_constraintBottom_toBottomOf="@+id/uiBG"
         app:layout_constraintEnd_toEndOf="@+id/uiBG"
-        app:layout_constraintHorizontal_bias="0.251"
+        app:layout_constraintHorizontal_bias="0.268"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/uiBG"
-        app:layout_constraintVertical_bias="0.991"
+        app:layout_constraintVertical_bias="0.974"
         app:srcCompat="@drawable/stun1" />
 
     <ImageView
         android:id="@+id/lifesteal"
-        android:layout_width="120dp"
-        android:layout_height="46dp"
+        android:layout_width="106dp"
+        android:layout_height="39dp"
         app:layout_constraintBottom_toBottomOf="@+id/uiBG"
         app:layout_constraintEnd_toEndOf="@+id/uiBG"
-        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintHorizontal_bias="0.419"
         app:layout_constraintStart_toStartOf="@+id/uiBG"
         app:layout_constraintTop_toTopOf="@+id/uiBG"
-        app:layout_constraintVertical_bias="0.978"
+        app:layout_constraintVertical_bias="0.966"
         app:srcCompat="@drawable/lifesteal2" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="157dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="145dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lifesteal"
         app:srcCompat="@drawable/skill6" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="208dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="154dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lifesteal"
         app:srcCompat="@drawable/skill7" />
