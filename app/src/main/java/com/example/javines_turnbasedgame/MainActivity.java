@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNextTurn.setOnClickListener(this);
         skill1.setOnClickListener(this);
         skill4.setOnClickListener(this);
-    //button music player
+    //button musicplayer
         bgm = MediaPlayer.create(this,R.raw.bgm1);
         bgm.setLooping(true);
         bgm.setVolume(30, 30);
